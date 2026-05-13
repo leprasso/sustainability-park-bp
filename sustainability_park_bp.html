@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Business Plan — Sustainability Park</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"><\/script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
+.app{max-width:960px;margin:0 auto;padding:1.5rem}
+.header{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header-left p:first-child{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#888;margin-bottom:3px}
+.header-left p:last-child{font-size:18px;font-weight:600;color:#1a1a1a}
+.sc-group{display:flex;gap:6px}
+.sc-btn{padding:5px 15px;border-radius:8px;border:1px solid #ddd;background:none;font-size:12px;cursor:pointer;color:#666;transition:.15s}
+.sc-btn.active{background:#f0faf6;color:#0d6e4e;border-color:#1D9E75;font-weight:500}
+.card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.tabs{display:flex;border-bottom:1px solid #e5e5e0;margin-bottom:1.5rem;overflow-x:auto;margin-left:-1.5rem;margin-right:-1.5rem;padding:0 1.5rem}
+.tab-btn{padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;font-size:13px;color:#888;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1D9E75;font-weight:500}
+.tab-btn:hover{color:#1a1a1a}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.kpi-card{background:#f8f8f6;border-radius:10px;padding:1rem}
+.kpi-lbl{font-size:11px;color:#888;margin-bottom:5px}
+.kpi-val{font-size:22px;font-weight:600;color:#1a1a1a}
+.kpi-sub{font-size:11px;color:#888;margin-top:3px}
+.kpi-sub.green{color:#0d6e4e}
+.chart-wrap{position:relative;width:100%}
+.legend{display:flex;gap:16px;margin-bottom:8px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:#666}
+.leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+.sec-title{font-size:12px;font-weight:500;color:#888;margin-bottom:6px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+@media(max-width:540px){.grid-2{grid-template-columns:1fr}}
+.act-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0f0ec}
+.ph-badge{font-size:10px;padding:2px 7px;border-radius:6px;background:#f0f0ec;color:#666;flex-shrink:0}
+.act-name{flex:1;font-size:13px;color:#1a1a1a}
+.act-rev{font-size:11px;color:#888;min-width:90px;text-align:right;flex-shrink:0}
+.tog{position:relative;width:34px;height:19px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ddd;border-radius:19px;transition:.2s}
+.tog-sl:before{content:'';position:absolute;height:13px;width:13px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.tog input:checked+.tog-sl{background:#1D9E75}
+.tog input:checked+.tog-sl:before{transform:translateX(15px)}
+.ph-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#888;margin:14px 0 4px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead tr{border-bottom:1px solid #e5e5e0}
+th{text-align:left;padding:5px 6px;color:#888;font-weight:400}
+th.r,td.r{text-align:right}
+td{padding:5px 6px;border-bottom:1px solid #f5f5f3}
+.sc-form{background:#f8f8f6;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem}
+.sc-form-title{font-size:13px;font-weight:600;margin-bottom:.75rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:540px){.form-grid{grid-template-columns:1fr}}
+label.lbl{font-size:12px;color:#888;display:block;margin-bottom:4px}
+input[type=text],select{width:100%;padding:7px 10px;border:1px solid #e0e0d8;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a}
+input[type=range]{width:100%}
+.form-footer{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn-save{margin-left:auto;background:#1D9E75;color:#fff;border:none;padding:8px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:500}
+.btn-save:hover{background:#0f6e56}
+.sc-card{background:#f8f8f6;border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sc-card-left{min-width:0}
+.sc-card-left p:first-child{font-weight:600;font-size:13px;margin-bottom:2px}
+.sc-card-left p:last-child{font-size:11px;color:#888}
+.sc-card-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-apply{font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#1a1a1a}
+.btn-apply:hover{background:#f0faf6;border-color:#1D9E75;color:#0d6e4e}
+.btn-del{font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#c0392b}
+.empty-msg{font-size:12px;color:#888;padding:8px 0}
+.share-box{background:#f0faf6;border:1px solid #a8e0cc;border-radius:10px;padding:1rem;margin-bottom:1rem}
+.share-box-title{font-size:12px;color:#0d6e4e;margin-bottom:6px;font-weight:600}
+.share-box-sub{font-size:12px;color:#3a8a6e;margin-bottom:10px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-outline{padding:6px 14px;border:1px solid #1D9E75;background:#fff;color:#0d6e4e;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500}
+.btn-outline:hover{background:#f0faf6}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1D9E75;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+.pane{display:none}
+.pane.active{display:block}
+.spacer{height:1.5rem}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="header">
+  <div class="header-left">
+    <p>Khouribga &middot; Maroc</p>
+    <p>Sustainability Park &mdash; BP 2026&ndash;2035</p>
+  </div>
+  <div class="sc-group">
+    <button class="sc-btn active" onclick="setSc('bas')" id="sc-bas">Bas</button>
+    <button class="sc-btn" onclick="setSc('moyen')" id="sc-moyen">Moyen</button>
+    <button class="sc-btn" onclick="setSc('haut')" id="sc-haut">Haut</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('dash')">Dashboard</button>
+    <button class="tab-btn" onclick="showTab('rev')">Revenus</button>
+    <button class="tab-btn" onclick="showTab('couts')">Co&ucirc;ts &amp; EBITDA</button>
+    <button class="tab-btn" onclick="showTab('act')">Activit&eacute;s</button>
+    <button class="tab-btn" onclick="showTab('sc')">Sc&eacute;narios</button>
+  </div>
+
+  <div id="pane-dash" class="pane active">
+    <div class="kpi-grid">
+      <div class="kpi-card"><p class="kpi-lbl">Revenu total 10 ans</p><p class="kpi-val" id="k1">-</p><p class="kpi-sub">MMAD</p></div>
+      <div class="kpi-card"><p class="kpi-lbl">Visiteurs cumul&eacute;s</p><p class="kpi-val" id="k2">-</p><p class="kpi-sub">sur 10 ans</p></div>
+      <div class="kpi-card"><p class="kpi-lbl">EBITDA cumul&eacute;</p><p class="kpi-val" id="k3">-</p><p class="kpi-sub green">MMAD</p></div>
+      <div class="kpi-card"><p class="kpi-lbl">Marge EBITDA moy.</p><p class="kpi-val" id="k4">-</p><p class="kpi-sub green">sur 10 ans</p></div>
+    </div>
+    <div class="legend">
+      <span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Revenus</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#D85A30"></span>Co&ucirc;ts</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>EBITDA</span>
+    </div>
+    <p class="sec-title">Evolution sur 10 ans (MMAD)</p>
+    <div class="chart-wrap" style="height:260px"><canvas id="cDash"></canvas></div>
+    <div class="grid-2">
+      <div>
+        <p class="sec-title" style="margin-top:1rem">Mix B2C / B2B &mdash; Ann&eacute;e 10</p>
+        <div class="legend"><span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>B2C</span><span class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>B2B</span></div>
+        <div class="chart-wrap" style="height:150px"><canvas id="cMix"></canvas></div>
+      </div>
+      <div>
+        <p class="sec-title" style="margin-top:1rem">Top 5 activit&eacute;s &mdash; An 10</p>
+        <div class="chart-wrap" style="height:168px"><canvas id="cTop"></canvas></div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <div id="pane-rev" class="pane">
+    <div class="legend"><span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>B2C</span><span class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>B2B</span></div>
+    <p class="sec-title">Revenus B2C + B2B par ann&eacute;e (MMAD)</p>
+    <div class="chart-wrap" style="height:240px"><canvas id="cRevBar"></canvas></div>
+    <p class="sec-title" style="margin-top:1.5rem">D&eacute;tail par activit&eacute; (MMAD)</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th style="width:150px">Activit&eacute;</th><th style="width:28px">Ph.</th>
+        <th class="r">A1</th><th class="r">A2</th><th class="r">A3</th><th class="r">A4</th><th class="r">A5</th>
+        <th class="r">A6</th><th class="r">A7</th><th class="r">A8</th><th class="r">A9</th><th class="r">A10</th>
+        <th class="r">Total</th></tr></thead>
+        <tbody id="revTbody"></tbody>
+      </table>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <div id="pane-couts" class="pane">
+    <div class="kpi-grid">
+      <div class="kpi-card"><p class="kpi-lbl">Co&ucirc;ts totaux 10 ans</p><p class="kpi-val" id="k5">-</p><p class="kpi-sub">MMAD</p></div>
+      <div class="kpi-card"><p class="kpi-lbl">EBITDA cumul&eacute;</p><p class="kpi-val" id="k6">-</p><p class="kpi-sub green">MMAD</p></div>
+      <div class="kpi-card"><p class="kpi-lbl">Marge EBITDA moy.</p><p class="kpi-val" id="k7">-</p><p class="kpi-sub green">sur 10 ans</p></div>
+      <div class="kpi-card"><p class="kpi-lbl">Rentabilit&eacute;</p><p class="kpi-val" style="color:#0d6e4e">D&egrave;s A1</p><p class="kpi-sub green">EBITDA positif an 1</p></div>
+    </div>
+    <div class="legend">
+      <span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Revenus</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#D85A30"></span>Co&ucirc;ts</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>EBITDA</span>
+    </div>
+    <p class="sec-title">Revenus, Co&ucirc;ts et EBITDA (MMAD)</p>
+    <div class="chart-wrap" style="height:300px"><canvas id="cCouts"></canvas></div>
+    <div class="spacer"></div>
+  </div>
+
+  <div id="pane-act" class="pane">
+    <p style="font-size:12px;color:#888;margin-bottom:1rem">Activez ou d&eacute;sactivez des activit&eacute;s pour simuler leur impact sur les revenus.</p>
+    <div id="actList"></div>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #f0f0ec">
+      <p class="sec-title">R&eacute;partition du revenu par phase &mdash; An 10</p>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Phase 1</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>Phase 2</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>Phase 3</span>
+      </div>
+      <div class="chart-wrap" style="height:180px"><canvas id="cPhase"></canvas></div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <div id="pane-sc" class="pane">
+    <p style="font-size:12px;color:#888;margin-bottom:1rem">Cr&eacute;ez des sc&eacute;narios personnalis&eacute;s et partagez-les en JSON avec vos collaborateurs.</p>
+    <div class="legend">
+      <span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Bas</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>Moyen</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>Haut</span>
+    </div>
+    <p class="sec-title">Revenu total par sc&eacute;nario &mdash; 10 ans (MMAD)</p>
+    <div class="chart-wrap" style="height:210px;margin-bottom:1.5rem"><canvas id="cComp"></canvas></div>
+
+    <div class="sc-form">
+      <p class="sc-form-title">Cr&eacute;er un sc&eacute;nario personnalis&eacute;</p>
+      <div class="form-grid">
+        <div><label class="lbl">Nom du sc&eacute;nario</label><input type="text" id="scName" placeholder="Ex: Optimiste 2028"/></div>
+        <div><label class="lbl">Sc&eacute;nario de base</label>
+          <select id="scBase"><option value="bas">Bas</option><option value="moyen">Moyen</option><option value="haut">Haut</option></select></div>
+      </div>
+      <div class="form-grid">
+        <div><label class="lbl">Multiplicateur revenus : <b id="rmv">1.0</b>x</label>
+          <input type="range" id="rMult" min="0.5" max="2.5" step="0.1" value="1.0" oninput="document.getElementById('rmv').textContent=parseFloat(this.value).toFixed(1)"/></div>
+        <div><label class="lbl">Multiplicateur co&ucirc;ts : <b id="cmv">1.0</b>x</label>
+          <input type="range" id="cMult" min="0.7" max="1.5" step="0.1" value="1.0" oninput="document.getElementById('cmv').textContent=parseFloat(this.value).toFixed(1)"/></div>
+      </div>
+      <div class="form-footer">
+        <span style="font-size:12px;color:#888">Sauvegardes locales dans votre navigateur.</span>
+        <button class="btn-save" onclick="saveSc()">Sauvegarder</button>
+      </div>
+    </div>
+
+    <div class="share-box">
+      <p class="share-box-title">Partager des sc&eacute;narios</p>
+      <p class="share-box-sub">Exportez en JSON pour envoyer &agrave; vos collaborateurs, qui peuvent les importer.</p>
+      <div class="btn-row">
+        <button class="btn-outline" onclick="exportScs()">Exporter (t&eacute;l&eacute;charger JSON)</button>
+        <button class="btn-outline" onclick="document.getElementById('importInput').click()">Importer un fichier JSON</button>
+        <input type="file" id="importInput" accept=".json" style="display:none" onchange="importScs(event)"/>
+      </div>
+    </div>
+
+    <p style="font-size:13px;font-weight:600;margin:.5rem 0 .75rem">Sc&eacute;narios sauvegard&eacute;s</p>
+    <div id="scList"><p class="empty-msg">Aucun sc&eacute;nario sauvegard&eacute;.</p></div>
+    <div class="spacer"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const YRS=['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10'];
+const B2C=[9.09,14.31,22.31,30.36,37.28,39.98,44.97,50.18,53.93,55.86];
+const B2B=[3.37,2.96,3.67,4.96,6.75,8.58,10.94,13.34,15.78,17.68];
+const CST=[8.26,8.68,8.94,9.37,9.73,9.89,10.10,10.32,10.61,9.34];
+const VB=[322,392,420,454,479,458,465,472,502,514];
+const VM=[564,686,736,794,838,802,813,826,878,899];
+const VH=[859,1046,1121,1210,1277,1222,1239,1259,1338,1369];
+const DATA={
+  bas:{b2c:B2C,b2b:B2B,costs:CST,vis:VB},
+  moyen:{b2c:B2C.map(v=>+(v*1.75).toFixed(2)),b2b:B2B.map(v=>+(v*1.3).toFixed(2)),costs:CST.map(v=>+(v*1.18).toFixed(2)),vis:VM},
+  haut:{b2c:B2C.map(v=>+(v*2.67).toFixed(2)),b2b:B2B.map(v=>+(v*1.6).toFixed(2)),costs:CST.map(v=>+(v*1.38).toFixed(2)),vis:VH}
+};
+const ACTS=[
+  {ph:'P1',name:'Ticket entree',rev:[3.22,3.92,4.20,4.54,4.79,4.58,4.65,4.72,5.02,5.14]},
+  {ph:'P1',name:'Musee des fossiles',rev:[0.52,0.88,0.84,0.81,0.79,0.72,0.78,0.84,0.89,0.91]},
+  {ph:'P1',name:'Musee de la mine a ciel ouvert',rev:[0.52,0.88,1.26,1.45,1.56,1.50,1.62,1.74,1.90,1.99]},
+  {ph:'P1',name:'Galerie souterraine avec ascenseur',rev:[0.52,0.88,1.26,1.45,1.56,1.50,1.62,1.74,1.90,1.99]},
+  {ph:'P1',name:'Location quad',rev:[1.93,2.94,3.36,4.40,5.13,5.13,5.30,5.48,5.92,6.16]},
+  {ph:'P1',name:'Location golfette',rev:[1.55,2.35,2.09,2.65,3.10,3.15,3.27,3.40,3.61,3.70]},
+  {ph:'P1',name:'Location bateau pedale',rev:[0.19,0.29,0.46,0.63,0.74,0.75,0.78,0.82,0.89,0.94]},
+  {ph:'P1',name:'Circuit VTT',rev:[0.64,0.98,1.35,1.86,2.25,2.34,2.51,2.69,2.91,3.03]},
+  {ph:'P2',name:'Voliere',rev:[0,0,0.84,1.27,1.53,1.56,1.67,1.79,2.01,2.16]},
+  {ph:'P2',name:'Ferme pedagogique',rev:[0,1.18,2.02,2.27,2.40,2.29,2.51,2.74,3.01,3.18]},
+  {ph:'P2',name:'Tyrolienne',rev:[0,0,0.11,0.23,0.36,0.46,0.58,0.71,0.75,0.77]},
+  {ph:'P3',name:'Ecolodge',rev:[0,0,2.52,5.45,8.62,11.0,13.94,17.0,18.06,18.49]},
+  {ph:'P3',name:'Safari animalier drive-through',rev:[0,0,0.42,0.91,1.44,1.83,2.32,2.83,3.01,3.08]},
+  {ph:'P3',name:'Location terrains : foot',rev:[0,0,1.58,2.45,3.02,3.16,3.42,3.68,4.06,4.31]},
+  {ph:'P3',name:'Location terrains : basket',rev:[0,0,0.38,0.68,0.93,1.10,1.25,1.42,1.50,1.54]},
+  {ph:'P3',name:'Location terrains : paddle',rev:[0,0,0.42,0.91,1.44,1.83,2.32,2.83,3.01,3.08]},
+  {ph:'P3',name:"Parcours d'accrobranche",rev:[0,0,1.05,1.59,1.92,1.95,2.09,2.24,2.51,2.70]}
+];
+let toggled=ACTS.map(()=>true);
+let curSc='bas';
+const CH={};
+function getD(){return DATA[curSc]||DATA.bas}
+function getRev(){const d=getD();return d.b2c.map((v,i)=>+(v+d.b2b[i]).toFixed(2))}
+function sum(a){return a.reduce((s,v)=>s+v,0)}
+function ebitdas(){const d=getD();return getRev().map((v,i)=>+(v-d.costs[i]).toFixed(2))}
+function avgMg(){const e=ebitdas(),r=getRev();return e.reduce((s,v,i)=>s+(r[i]?v/r[i]*100:0),0)/e.length}
+function fM(v){return v>=1000?(v/1000).toFixed(1)+' Md':v.toFixed(1)+' M'}
+function getM(){return curSc==='bas'?1:curSc==='moyen'?1.75:curSc==='haut'?2.67:1}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function updateKPIs(){
+  const d=getD(),rev=getRev(),e=ebitdas();
+  document.getElementById('k1').textContent=fM(sum(rev));
+  document.getElementById('k2').textContent=(sum(d.vis)/1000).toFixed(1)+' M';
+  document.getElementById('k3').textContent=fM(sum(e));
+  document.getElementById('k4').textContent=avgMg().toFixed(1)+'%';
+  const k5=document.getElementById('k5');
+  if(k5){k5.textContent=fM(sum(d.costs));document.getElementById('k6').textContent=fM(sum(e));document.getElementById('k7').textContent=avgMg().toFixed(1)+'%'}
+}
+function dc(id){if(CH[id]){CH[id].destroy();delete CH[id]}}
+function drawDash(){
+  dc('cDash');const ctx=document.getElementById('cDash');if(!ctx)return;
+  const d=getD(),rev=getRev(),e=ebitdas();
+  CH['cDash']=new Chart(ctx,{type:'line',data:{labels:YRS,datasets:[
+    {label:'Revenus',data:rev,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.08)',borderWidth:2.5,pointRadius:3,tension:.35,fill:true},
+    {label:'Couts',data:d.costs,borderColor:'#D85A30',backgroundColor:'rgba(216,90,48,.05)',borderWidth:2.5,pointRadius:3,tension:.35,fill:true},
+    {label:'EBITDA',data:e,borderColor:'#378ADD',borderWidth:2,borderDash:[5,3],pointRadius:3,tension:.35}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11},autoSkip:false}},
+            y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'M',font:{size:11}}}}}});
+}
+function drawMix(){
+  dc('cMix');const ctx=document.getElementById('cMix');if(!ctx)return;
+  const d=getD();
+  CH['cMix']=new Chart(ctx,{type:'doughnut',data:{labels:['B2C','B2B'],datasets:[{data:[+d.b2c[9].toFixed(1),+d.b2b[9].toFixed(1)],backgroundColor:['#1D9E75','#378ADD'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
+}
+function drawTop(){
+  dc('cTop');const ctx=document.getElementById('cTop');if(!ctx)return;
+  const mlt=getM();
+  const top=[...ACTS].sort((a,b)=>b.rev[9]-a.rev[9]).slice(0,5);
+  CH['cTop']=new Chart(ctx,{type:'bar',data:{labels:top.map(a=>a.name.length>17?a.name.slice(0,17)+'...':a.name),
+    datasets:[{data:top.map(a=>+(a.rev[9]*mlt).toFixed(1)),backgroundColor:['#1D9E75','#4db891','#80d0b1','#b3e5d5','#d4f0e7'],borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'M',font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+}
+function drawRevBar(){
+  dc('cRevBar');const ctx=document.getElementById('cRevBar');if(!ctx)return;
+  const d=getD();
+  CH['cRevBar']=new Chart(ctx,{type:'bar',data:{labels:YRS,datasets:[
+    {label:'B2C',data:d.b2c.map(v=>+v.toFixed(1)),backgroundColor:'#1D9E75',borderRadius:2,borderWidth:0},
+    {label:'B2B',data:d.b2b.map(v=>+v.toFixed(1)),backgroundColor:'#378ADD',borderRadius:2,borderWidth:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:11},autoSkip:false}},
+            y:{stacked:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'M',font:{size:11}}}}}});
+}
+function drawCouts(){
+  dc('cCouts');const ctx=document.getElementById('cCouts');if(!ctx)return;
+  const d=getD(),rev=getRev(),e=ebitdas();
+  CH['cCouts']=new Chart(ctx,{type:'line',data:{labels:YRS,datasets:[
+    {label:'Revenus',data:rev,borderColor:'#1D9E75',borderWidth:2.5,tension:.35,pointRadius:3},
+    {label:'Couts',data:d.costs,borderColor:'#D85A30',borderWidth:2.5,tension:.35,pointRadius:3},
+    {label:'EBITDA',data:e,borderColor:'#378ADD',borderWidth:2,borderDash:[5,3],tension:.35,pointRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11},autoSkip:false}},
+            y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'M',font:{size:11}}}}}});
+}
+function drawPhase(){
+  dc('cPhase');const ctx=document.getElementById('cPhase');if(!ctx)return;
+  const mlt=getM();
+  const p1=ACTS.filter((a,i)=>a.ph==='P1'&&toggled[i]).reduce((s,a)=>s+a.rev[9],0)*mlt;
+  const p2=ACTS.filter((a,i)=>a.ph==='P2'&&toggled[i]).reduce((s,a)=>s+a.rev[9],0)*mlt;
+  const p3=ACTS.filter((a,i)=>a.ph==='P3'&&toggled[i]).reduce((s,a)=>s+a.rev[9],0)*mlt;
+  CH['cPhase']=new Chart(ctx,{type:'doughnut',data:{labels:['Phase 1','Phase 2','Phase 3'],
+    datasets:[{data:[+p1.toFixed(1),+p2.toFixed(1),+p3.toFixed(1)],backgroundColor:['#1D9E75','#378ADD','#BA7517'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11},padding:10}}},cutout:'55%'}});
+}
+function drawComp(){
+  dc('cComp');const ctx=document.getElementById('cComp');if(!ctx)return;
+  CH['cComp']=new Chart(ctx,{type:'bar',data:{labels:['Scenario Bas','Scenario Moyen','Scenario Haut'],datasets:[
+    {label:'B2C',data:[+sum(DATA.bas.b2c).toFixed(1),+sum(DATA.moyen.b2c).toFixed(1),+sum(DATA.haut.b2c).toFixed(1)],backgroundColor:'#1D9E75',borderRadius:4,borderWidth:0},
+    {label:'B2B',data:[+sum(DATA.bas.b2b).toFixed(1),+sum(DATA.moyen.b2b).toFixed(1),+sum(DATA.haut.b2b).toFixed(1)],backgroundColor:'#378ADD',borderRadius:4,borderWidth:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:12}}},
+            y:{stacked:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'M',font:{size:11}}}}}});
+}
+function drawAll(){drawDash();drawMix();drawTop();drawRevBar();drawCouts();drawPhase();drawComp()}
+function setSc(sc){
+  curSc=sc;['bas','moyen','haut'].forEach(s=>document.getElementById('sc-'+s).classList.toggle('active',s===sc));
+  updateKPIs();drawAll();
+  if(document.getElementById('pane-rev').classList.contains('active'))buildRevTable();
+}
+function showTab(t){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pane-'+t).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['dash','rev','couts','act','sc'][i]===t));
+  if(t==='rev')buildRevTable();
+  if(t==='act')buildActs();
+  if(t==='sc'){loadScList();drawComp();}
+  setTimeout(drawAll,50);
+}
+function buildRevTable(){
+  const mlt=getM(),tb=document.getElementById('revTbody');if(!tb)return;
+  let html='';
+  ACTS.forEach((a,idx)=>{
+    const vals=a.rev.map(v=>+(v*mlt).toFixed(1));
+    const tot=+sum(vals).toFixed(1);
+    html+=`<tr style="opacity:${toggled[idx]?1:0.4}">
+      <td>${a.name}</td><td style="color:#888;font-size:10px">${a.ph}</td>
+      ${vals.map(v=>`<td class="r" style="color:${v===0?'#ccc':'#1a1a1a'}">${v===0?'-':v}</td>`).join('')}
+      <td class="r" style="font-weight:600">${tot}</td></tr>`;
+  });
+  tb.innerHTML=html;
+}
+function buildActs(){
+  const el=document.getElementById('actList');if(!el)return;
+  const mlt=getM();
+  let html='';
+  ['P1','P2','P3'].forEach(ph=>{
+    const labels={'P1':'Phase 1 - Des l ouverture','P2':'Phase 2 - An 2','P3':'Phase 3 - An 3'};
+    html+=`<p class="ph-title">${labels[ph]}</p>`;
+    ACTS.filter(a=>a.ph===ph).forEach(a=>{
+      const idx=ACTS.indexOf(a),r10=+(a.rev[9]*mlt).toFixed(1);
+      html+=`<div class="act-row">
+        <span class="ph-badge">${a.ph}</span>
+        <span class="act-name">${a.name}</span>
+        <span class="act-rev">${r10>0?r10+' MMAD (A10)':'Demarre '+ph}</span>
+        <label class="tog"><input type="checkbox" ${toggled[idx]?'checked':''} onchange="togAct(${idx},this.checked)"/><span class="tog-sl"></span></label>
+      </div>`;
+    });
+  });
+  el.innerHTML=html;
+}
+function togAct(i,v){toggled[i]=v;drawPhase();buildRevTable()}
+function getSaved(){try{return JSON.parse(localStorage.getItem('bp_scenarios')||'[]')}catch(e){return[]}}
+function setSaved(a){localStorage.setItem('bp_scenarios',JSON.stringify(a))}
+function saveSc(){
+  const name=document.getElementById('scName').value.trim();
+  if(!name){toast('Veuillez saisir un nom.');return}
+  const sc={id:Date.now(),name,base:document.getElementById('scBase').value,revMult:+parseFloat(document.getElementById('rMult').value).toFixed(1),costMult:+parseFloat(document.getElementById('cMult').value).toFixed(1),date:new Date().toLocaleDateString('fr-FR')};
+  const arr=getSaved();arr.push(sc);setSaved(arr);
+  document.getElementById('scName').value='';loadScList();toast('Scenario "'+sc.name+'" sauvegarde !');
+}
+function loadScList(){
+  const el=document.getElementById('scList');if(!el)return;
+  const arr=getSaved();
+  if(!arr.length){el.innerHTML='<p class="empty-msg">Aucun scenario sauvegarde.</p>';return}
+  el.innerHTML=arr.map(sc=>`<div class="sc-card">
+    <div class="sc-card-left"><p>${sc.name}</p><p>Base: ${sc.base} - Rev x${sc.revMult} - Couts x${sc.costMult} - ${sc.date}</p></div>
+    <div class="sc-card-actions">
+      <button class="btn-apply" onclick="applySc('${sc.base}',${sc.revMult},${sc.costMult})">Appliquer</button>
+      <button class="btn-del" onclick="delSc(${sc.id})">X</button>
+    </div></div>`).join('');
+}
+function delSc(id){if(!confirm('Supprimer ce scenario ?'))return;setSaved(getSaved().filter(s=>s.id!==id));loadScList();toast('Supprime.')}
+function applySc(base,rM,cM){
+  const d=DATA[base];
+  DATA._custom={b2c:d.b2c.map(v=>+(v*rM).toFixed(2)),b2b:d.b2b.map(v=>+(v*rM).toFixed(2)),costs:d.costs.map(v=>+(v*cM).toFixed(2)),vis:d.vis};
+  curSc='_custom';['bas','moyen','haut'].forEach(s=>document.getElementById('sc-'+s).classList.remove('active'));
+  updateKPIs();drawAll();showTab('dash');toast('Scenario applique - voir Dashboard');
+}
+function exportScs(){
+  const arr=getSaved();if(!arr.length){toast('Aucun scenario a exporter.');return}
+  const json=JSON.stringify(arr,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='bp_scenarios_sustainability_park.json';a.click();
+  toast('Fichier JSON telecharge !');
+}
+function importScs(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const arr=JSON.parse(e.target.result);
+      const ex=getSaved();const merged=[...ex,...arr.filter(s=>!ex.find(e=>e.id===s.id))];
+      setSaved(merged);loadScList();toast(arr.length+' scenario(s) importe(s) !');
+    }catch(err){toast('Fichier JSON invalide.')}
+  };
+  reader.readAsText(file);evt.target.value='';
+}
+updateKPIs();
+window.addEventListener('load',()=>setTimeout(drawAll,100));
+<\/script>
+</div>
+</body>
+</html>
